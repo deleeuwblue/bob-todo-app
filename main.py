@@ -1,11 +1,11 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Optional
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, create_engine
+from sqlalchemy import Boolean, Column, Date, DateTime, Integer, String, create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 # ---------------------------------------------------------------------------
@@ -30,6 +30,7 @@ class Todo(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     completed = Column(Boolean, default=False, nullable=False)
+    due_date = Column(Date, nullable=False)
     created_at = Column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
@@ -55,6 +56,7 @@ def get_db():
 
 class TodoCreate(BaseModel):
     title: str
+    due_date: date
 
 
 class TodoUpdate(BaseModel):
@@ -66,6 +68,7 @@ class TodoResponse(BaseModel):
     id: int
     title: str
     completed: bool
+    due_date: date
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -96,7 +99,7 @@ def list_todos(db: Session = Depends(get_db)):
 
 @app.post("/api/todos", response_model=TodoResponse, status_code=201)
 def create_todo(body: TodoCreate, db: Session = Depends(get_db)):
-    todo = Todo(title=body.title)
+    todo = Todo(title=body.title, due_date=body.due_date)
     db.add(todo)
     db.commit()
     db.refresh(todo)

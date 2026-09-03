@@ -1,9 +1,10 @@
 /* app.js — Todo frontend logic */
 
-const list      = document.getElementById('todo-list');
-const form      = document.getElementById('add-form');
-const titleInput = document.getElementById('new-title');
-const emptyState = document.getElementById('empty-state');
+const list         = document.getElementById('todo-list');
+const form         = document.getElementById('add-form');
+const titleInput   = document.getElementById('new-title');
+const dueDateInput = document.getElementById('new-due-date');
+const emptyState   = document.getElementById('empty-state');
 
 // -------------------------------------------------------------------------
 // API helpers
@@ -62,12 +63,16 @@ function renderTodo(todo) {
   title.className = 'todo-title';
   title.textContent = todo.title;
 
+  const dueDate = document.createElement('span');
+  dueDate.className = 'due-date';
+  dueDate.textContent = `Due: ${todo.due_date}`;
+
   const deleteBtn = document.createElement('button');
   deleteBtn.className = 'delete-btn';
   deleteBtn.setAttribute('aria-label', 'Delete todo');
   deleteBtn.textContent = '✕';
 
-  li.append(checkbox, title, deleteBtn);
+  li.append(checkbox, title, dueDate, deleteBtn);
   return li;
 }
 
@@ -118,11 +123,11 @@ async function fetchTodos() {
  *   - Uses a `try...catch` block around the async API call and DOM update.
  *   - If the request fails (e.g. validation error or network issue), logs the error with `console.error`.
  */
-async function addTodo(title) {
+async function addTodo(title, dueDate) {
   try {
     const todo = await apiFetch('/api/todos', {
       method: 'POST',
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ title, due_date: dueDate }),
     });
     list.appendChild(renderTodo(todo));
     syncEmptyState();
@@ -185,13 +190,14 @@ async function deleteTodo(id) {
 // -------------------------------------------------------------------------
 // Event listeners
 // -------------------------------------------------------------------------
-
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = titleInput.value.trim();
-  if (!title) return;
+  const dueDate = dueDateInput.value;
+  if (!title || !dueDate) return;
   titleInput.value = '';
-  await addTodo(title);
+  dueDateInput.value = '';
+  await addTodo(title, dueDate);
 });
 
 list.addEventListener('change', (e) => {
