@@ -9,13 +9,14 @@ from sqlalchemy import Boolean, Column, DateTime, Integer, String, create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 # ---------------------------------------------------------------------------
-# Database
+# Database setup
 # ---------------------------------------------------------------------------
 
 DATABASE_URL = "sqlite:///./todos.db"
 
 engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL,
+    connect_args={"check_same_thread": False},
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -23,6 +24,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 class Base(DeclarativeBase):
     pass
 
+
+# ---------------------------------------------------------------------------
+# ORM model
+# ---------------------------------------------------------------------------
 
 class Todo(Base):
     __tablename__ = "todos"
@@ -39,19 +44,9 @@ class Todo(Base):
 
 Base.metadata.create_all(bind=engine)
 
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 # ---------------------------------------------------------------------------
 # Pydantic schemas
 # ---------------------------------------------------------------------------
-
 
 class TodoCreate(BaseModel):
     title: str
@@ -72,21 +67,24 @@ class TodoResponse(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# App
+# Dependency
 # ---------------------------------------------------------------------------
 
-app = FastAPI()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+# ---------------------------------------------------------------------------
+# App and routes
+# ---------------------------------------------------------------------------
+
+app = FastAPI(title="TODO App")
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-# ---------------------------------------------------------------------------
-# Routes
-# ---------------------------------------------------------------------------
-
-
-@app.get("/")
-def index():
-    return FileResponse("static/index.html")
 
 
 @app.get("/api/todos", response_model=list[TodoResponse])
@@ -95,8 +93,8 @@ def list_todos(db: Session = Depends(get_db)):
 
 
 @app.post("/api/todos", response_model=TodoResponse, status_code=201)
-def create_todo(body: TodoCreate, db: Session = Depends(get_db)):
-    todo = Todo(title=body.title)
+def create_todo(payload: TodoCreate, db: Session = Depends(get_db)):
+    todo = Todo(title=payload.title)
     db.add(todo)
     db.commit()
     db.refresh(todo)
@@ -104,14 +102,14 @@ def create_todo(body: TodoCreate, db: Session = Depends(get_db)):
 
 
 @app.patch("/api/todos/{todo_id}", response_model=TodoResponse)
-def update_todo(todo_id: int, body: TodoUpdate, db: Session = Depends(get_db)):
+def update_todo(todo_id: int, payload: TodoUpdate, db: Session = Depends(get_db)):
     todo = db.get(Todo, todo_id)
     if todo is None:
-        return JSONResponse(status_code=404, content={"error": "Todo not found"})
-    if body.title is not None:
-        todo.title = body.title
-    if body.completed is not None:
-        todo.completed = body.completed
+        raise HTTPException(status_code=404, detail="Todo not found")
+    if payload.title is not None:
+        todo.title = payload.title
+    if payload.completed is not None:
+        todo.completed = payload.completed
     db.commit()
     db.refresh(todo)
     return todo
@@ -121,6 +119,11 @@ def update_todo(todo_id: int, body: TodoUpdate, db: Session = Depends(get_db)):
 def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = db.get(Todo, todo_id)
     if todo is None:
-        return JSONResponse(status_code=404, content={"error": "Todo not found"})
+        raise HTTPException(status_code=404, detail="Todo not found")
     db.delete(todo)
     db.commit()
+
+
+@app.get("/")
+def serve_index():
+    return FileResponse("static/index.html")

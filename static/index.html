@@ -3,31 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Todos</title>
+  <title>TODO App</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>My Todos</h1>
-    </header>
+  <main>
+    <h1>TODO</h1>
 
     <form id="add-form">
       <input
-        type="text"
         id="new-title"
-        placeholder="What needs to be done?"
+        type="text"
+        placeholder="What needs doing?"
         autocomplete="off"
         required
       />
       <button type="submit">Add</button>
     </form>
 
-    <section id="todo-section">
-      <ul id="todo-list"></ul>
-      <p id="empty-state">No todos yet — add one above.</p>
-    </section>
-  </div>
+    <ul id="todo-list"></ul>
+  </main>
 
   <script src="/static/app.js"></script>
 </body>
