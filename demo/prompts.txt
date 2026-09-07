@@ -1,0 +1,5 @@
+Add a comment to @test_api.py to specify Author: Adam
+
+The github repo contains an issue. Create a new branch so I can fix it, then write an issue resolution plan to the workspace in new folder issue/planning. I’m doing this as a live demo so work as quickly as possible and minimise your output accordingly. Don’t bother updating the @test_api.py, just work fast! Once you’ve written the plan, make the code changes immediately.
+
+Create some HTML release notes for @issue/planning/issue-1-plan.md . Write this file as HTML and save it to my workspace.
