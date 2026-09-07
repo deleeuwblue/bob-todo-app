@@ -1,3 +1,5 @@
+# Author: Adam de Leeuw
+
 import pytest
 from fastapi.testclient import TestClient
 
