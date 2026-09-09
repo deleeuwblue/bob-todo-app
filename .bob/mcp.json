@@ -15,6 +15,17 @@
         "suggest_assets",
         "list_updates"
       ]
+    },
+    "watsonx-orchestrate-adk": {
+      "command": "uvx",
+      "args": [
+        "ibm-watsonx-orchestrate-mcp-server"
+      ],
+      "env": {
+        "WXO_MCP_WORKING_DIRECTORY": "",
+        "WXO_MCP_DEBUG": ""
+      },
+      "timeout": 300
     }
   }
 }
