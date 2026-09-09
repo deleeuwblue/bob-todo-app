@@ -3,6 +3,7 @@ Setup:
 Ensure Chat permissions do not auto-approve write
 Delete todo.db, it will be recreated on startup of main.py
 Make sure test_api.py does not include Author: comment
+Make sure all feature branches are deleted
 
 Open web browser tabs:
 https://github.com/deleeuwblue/bob-todo-app
@@ -12,6 +13,6 @@ Prompts:
 
 Add a comment to @test_api.py to specify Author: Adam
 
-The github repo contains an issue. Create a new branch so I can fix it. I’m doing this as a live demo so work as quickly as possible and minimise your output accordingly. Don’t bother updating the @test_api.py, just work fast to fix the code! Make sure you update all necessary components, including frontend and backend. Create some release notes in HTML format that should be written to my workspace. When you've finished, tell me what to restart in order to test the changes.
+The github repo contains an issue. Create a new branch so I can fix it. I’m doing this as a live demo so work as quickly as possible and minimise your output accordingly. Don’t bother updating the @test_api.py, just work fast to fix the code! Make sure you update all necessary components, including frontend and backend. Create some release notes in HTML format that should be written to my workspace.
 
 Create a Pull Request now.
