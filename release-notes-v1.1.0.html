@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Release Notes — TODO App v1.1.0</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      background: #f7f8fa;
+      color: #1f2328;
+      padding: 2.5rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+    article { width: 100%; max-width: 760px; }
+    header { border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 2rem; }
+    header h1 { font-size: 1.6rem; font-weight: 700; }
+    header p { color: #57606a; margin-top: 0.25rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase;
+         letter-spacing: 0.05em; color: #57606a; margin-bottom: 0.75rem; }
+    ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    li { display: flex; gap: 0.75rem; align-items: flex-start; }
+    li::before { content: "•"; color: #3b82d4; flex-shrink: 0; margin-top: 0.05rem; }
+    .tag {
+      display: inline-block; padding: 0.15rem 0.5rem;
+      border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+      margin-right: 0.4rem; vertical-align: middle;
+    }
+    .tag.fix   { background: #dbeafe; color: #1e40af; }
+    .tag.feat  { background: #dcfce7; color: #166534; }
+    .tag.chore { background: #f3f4f6; color: #374151; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.5rem 0.75rem; border: 1px solid #e5e7eb; }
+    th { background: #f7f8fa; font-weight: 600; }
+    footer {
+      margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;
+      text-align: center; font-size: 12px; color: #57606a;
+    }
+  </style>
+</head>
+<body>
+<article>
+  <header>
+    <h1>TODO App — Release Notes</h1>
+    <p>Version 1.1.0 &nbsp;·&nbsp; Branch: <code>fix/issue-1-due-date</code> &nbsp;·&nbsp; Fixes <a href="https://github.com/deleeuwblue/bob-todo-app/issues/1">#1</a></p>
+  </header>
+
+  <section>
+    <h2>What's New</h2>
+    <ul>
+      <li><span class="tag feat">feat</span> Tasks now support an optional <strong>due date</strong> set at creation time.</li>
+      <li><span class="tag feat">feat</span> The add-task form includes a date picker so users can specify a target completion date inline.</li>
+      <li><span class="tag feat">feat</span> Each task card displays its due date as a muted badge (e.g. <em>Due: 2025-08-01</em>).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Changes</h2>
+    <table>
+      <thead><tr><th>File</th><th>Change</th></tr></thead>
+      <tbody>
+        <tr><td>main.py</td><td>Added <code>due_date</code> (Date, nullable) column to <code>Todo</code> ORM model; added <code>due_date</code> field to <code>TodoCreate</code>, <code>TodoUpdate</code>, and <code>TodoResponse</code> schemas; updated <code>create_todo</code> and <code>update_todo</code> route handlers.</td></tr>
+        <tr><td>static/index.html</td><td>Added <code>&lt;input type="date"&gt;</code> field to the add-task form.</td></tr>
+        <tr><td>static/app.js</td><td>Reads due date from the form and includes it in POST body; renders due date badge in each task list item.</td></tr>
+        <tr><td>static/style.css</td><td>Added styles for the date input and <code>.due-date</code> badge.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Issues Resolved</h2>
+    <ul>
+      <li><span class="tag fix">fix</span> <a href="https://github.com/deleeuwblue/bob-todo-app/issues/1">#1</a> — Tasks do not have a complete-by date.</li>
+    </ul>
+  </section>
+
+  <footer>Made with IBM Bob</footer>
+</article>
+</body>
+</html>

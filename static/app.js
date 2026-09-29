@@ -6,6 +6,7 @@
 const list = document.getElementById('todo-list');
 const form = document.getElementById('add-form');
 const input = document.getElementById('new-title');
+const dueDateInput = document.getElementById('new-due-date');
 
 // ── API helpers ────────────────────────────────────────────────────────────
 
@@ -20,12 +21,14 @@ async function fetchTodos() {
   }
 }
 
-async function addTodo(title) {
+async function addTodo(title, dueDate) {
   try {
+    const body = { title };
+    if (dueDate) body.due_date = dueDate;
     const res = await fetch('/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`POST /api/todos returned ${res.status}`);
     await fetchTodos();
@@ -69,7 +72,7 @@ function renderList(todos) {
   todos.forEach((todo) => list.appendChild(createItem(todo)));
 }
 
-function createItem({ id, title, completed }) {
+function createItem({ id, title, completed, due_date }) {
   const li = document.createElement('li');
   li.className = 'todo-item';
   li.dataset.id = id;
@@ -83,6 +86,10 @@ function createItem({ id, title, completed }) {
   span.className = 'todo-title';
   span.textContent = title;
 
+  const dueBadge = document.createElement('span');
+  dueBadge.className = 'due-date';
+  dueBadge.textContent = due_date ? `Due: ${due_date}` : '';
+
   const deleteBtn = document.createElement('button');
   deleteBtn.className = 'delete-btn';
   deleteBtn.textContent = '✕';
@@ -90,6 +97,7 @@ function createItem({ id, title, completed }) {
 
   li.appendChild(checkbox);
   li.appendChild(span);
+  li.appendChild(dueBadge);
   li.appendChild(deleteBtn);
 
   applyCompletedState(li, completed);
@@ -108,8 +116,10 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = input.value.trim();
   if (!title) return;
+  const dueDate = dueDateInput.value || null;
   input.value = '';
-  await addTodo(title);
+  dueDateInput.value = '';
+  await addTodo(title, dueDate);
 });
 
 // Event delegation — handles clicks on any checkbox or delete button in the list
