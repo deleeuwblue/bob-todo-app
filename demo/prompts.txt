@@ -1,13 +1,15 @@
 Setup:
 
 Ensure Chat permissions do not auto-approve write
-Delete todo.db, it will be recreated on startup of main.py
 Make sure test_api.py does not include Author: comment
 Make sure all feature branches are deleted
+./restart.sh
+Connect IBM VPN and open settings->MCP at least once
 
 Open web browser tabs:
 https://github.com/deleeuwblue/bob-todo-app
 http://127.0.0.1:8000/
+https://bob.ibm.com/admin/subscription
 
 Prompts:
 
