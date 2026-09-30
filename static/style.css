@@ -49,7 +49,19 @@ h1 {
   transition: border-color 0.15s;
 }
 
-#new-title:focus {
+#new-due-date {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  color: #1f2328;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+#new-title:focus,
+#new-due-date:focus {
   border-color: #3b82d4;
 }
 
@@ -102,9 +114,23 @@ h1 {
   font-size: 0.95rem;
 }
 
+.todo-item .todo-due-date {
+  font-size: 0.8rem;
+  color: #57606a;
+  background: #f0f2f5;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
 .todo-item.completed .todo-title {
   text-decoration: line-through;
   color: #57606a;
+}
+
+.todo-item.completed .todo-due-date {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
 
 .todo-item .delete-btn {

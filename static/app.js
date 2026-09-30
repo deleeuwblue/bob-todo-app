@@ -6,6 +6,7 @@
 const list = document.getElementById('todo-list');
 const form = document.getElementById('add-form');
 const input = document.getElementById('new-title');
+const dueDateInput = document.getElementById('new-due-date');
 
 // ── API helpers ────────────────────────────────────────────────────────────
 
@@ -20,12 +21,16 @@ async function fetchTodos() {
   }
 }
 
-async function addTodo(title) {
+async function addTodo(title, dueDate) {
   try {
+    const payload = { title };
+    if (dueDate) {
+      payload.due_date = dueDate;
+    }
     const res = await fetch('/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify(payload),
     });
     if (!res.ok) throw new Error(`POST /api/todos returned ${res.status}`);
     await fetchTodos();
@@ -69,7 +74,7 @@ function renderList(todos) {
   todos.forEach((todo) => list.appendChild(createItem(todo)));
 }
 
-function createItem({ id, title, completed }) {
+function createItem({ id, title, due_date, completed }) {
   const li = document.createElement('li');
   li.className = 'todo-item';
   li.dataset.id = id;
@@ -90,6 +95,14 @@ function createItem({ id, title, completed }) {
 
   li.appendChild(checkbox);
   li.appendChild(span);
+
+  if (due_date) {
+    const dueSpan = document.createElement('span');
+    dueSpan.className = 'todo-due-date';
+    dueSpan.textContent = `Due: ${due_date}`;
+    li.appendChild(dueSpan);
+  }
+
   li.appendChild(deleteBtn);
 
   applyCompletedState(li, completed);
@@ -107,9 +120,11 @@ function applyCompletedState(item, completed) {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = input.value.trim();
+  const dueDate = dueDateInput.value ? dueDateInput.value : null;
   if (!title) return;
   input.value = '';
-  await addTodo(title);
+  dueDateInput.value = '';
+  await addTodo(title, dueDate);
 });
 
 // Event delegation — handles clicks on any checkbox or delete button in the list

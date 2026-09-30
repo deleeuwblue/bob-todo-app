@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Release Notes - Due Date Support</title>
+  <style>
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      background: #ffffff;
+      color: #1f2328;
+      max-width: 760px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      background: #e1f0ff;
+      color: #0969da;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+    }
+    .card {
+      background: #f7f8fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      font-size: 12px;
+      color: #57606a;
+    }
+  </style>
+</head>
+<body>
+  <span class="badge">Release v1.1.0</span>
+  <h1>Release Notes: Target Due Date Support</h1>
+
+  <div class="card">
+    <strong>Summary:</strong> Resolves Issue #1 by enabling users to assign target completion dates to tasks upon creation and viewing them in the task list.
+  </div>
+
+  <h2>Highlights &amp; Changes</h2>
+  <ul>
+    <li><strong>Backend (FastAPI &amp; SQLAlchemy):</strong> Added <code>due_date</code> column to the <code>Todo</code> model and updated request/response schemas.</li>
+    <li><strong>Frontend UI (HTML/CSS):</strong> Integrated a date picker into the task addition form and styled due date badges on task items.</li>
+    <li><strong>Client Logic (app.js):</strong> Updated payload submission to send target dates and dynamically render due date tags on tasks.</li>
+  </ul>
+
+  <h2>API Updates</h2>
+  <ul>
+    <li><code>POST /api/todos</code>: Accepts optional <code>due_date</code> (YYYY-MM-DD format).</li>
+    <li><code>PATCH /api/todos/{id}</code>: Supports updating <code>due_date</code>.</li>
+    <li><code>GET /api/todos</code>: Returns <code>due_date</code> in task responses.</li>
+  </ul>
+
+  <footer>Made with IBM Bob</footer>
+</body>
+</html>
