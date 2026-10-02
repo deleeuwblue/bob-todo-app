@@ -6,6 +6,7 @@ Make sure test_api.py does not include Author: comment
 Make sure all feature branches are deleted
 ./restart.sh
 Connect IBM VPN and open settings->MCP at least once
+Make sure the task list contains only tasks 1-4
 
 Open web browser tabs:
 https://github.com/deleeuwblue/bob-todo-app
