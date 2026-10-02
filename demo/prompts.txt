@@ -20,3 +20,6 @@ Add a comment "Author: Adam" to @test_api.py
 The github repo contains an issue. Create a new branch so I can fix it. I’m doing this as a live demo so work as quickly as possible and minimise your output accordingly. Don’t bother updating the @test_api.py, just work fast to fix the code! Make sure you update all necessary components, including frontend and backend. Create some release notes in HTML format that should be written to my workspace.
 
 Commit all files then create a Pull Request.
+
+Troubleshooting:
+pkill -f "uvicorn main:app"
